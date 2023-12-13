@@ -49,25 +49,17 @@ maxDepth <= 1000
 0 <= n <= 1000 */
 
 var flat = function (arr, n) {
-	// Helper function to flatten the array recursively
-	function flattenArray(arr, currentDepth, targetDepth) {
-		let result = [];
+	const res = [];
 
-		for (let i = 0; i < arr.length; i++) {
-			if (Array.isArray(arr[i]) && currentDepth < targetDepth) {
-				// Recursively flatten subarrays if the current depth is less than the target depth
-				result = result.concat(
-					flattenArray(arr[i], currentDepth + 1, targetDepth)
-				);
+	function helper(arr, depth) {
+		for (const val of arr) {
+			if (typeof val === "object" && depth < n) {
+				helper(val, depth + 1);
 			} else {
-				// Add the element to the result if it's not an array or the depth limit is reached
-				result.push(arr[i]);
+				res.push(val);
 			}
 		}
-
-		return result;
+		return res;
 	}
-
-	// Call the helper function with the initial depth of 0
-	return flattenArray(arr, 0, n);
+	return helper(arr, 0);
 };
